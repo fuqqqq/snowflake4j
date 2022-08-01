@@ -15,12 +15,12 @@ Maven
 <dependency>
     <groupId>com.fuqqqq</groupId>
     <artifactId>snowflake4j</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
   ```
 Gradle
 ```groovy
-compile 'com.fuqqqq:snowflake4j:1.0.1'
+compile 'com.fuqqqq:snowflake4j:1.0.2'
 ```
 
 ## 用法
