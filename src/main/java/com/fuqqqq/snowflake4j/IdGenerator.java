@@ -1,5 +1,8 @@
 package com.fuqqqq.snowflake4j;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * SnowFlake ID Generator.
  */
@@ -50,7 +53,7 @@ public class IdGenerator {
         long timestamp = timeGen();
 
         if (timestamp < lastTimestamp) {
-            throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
+            throw new RuntimeException(String.format("Clock moved backwards. Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
         }
 
         if (lastTimestamp == timestamp) {
@@ -65,6 +68,23 @@ public class IdGenerator {
         lastTimestamp = timestamp;
 
         return ((timestamp - TW_EPOCH) << TIMESTAMP_LEFT_SHIFT) | (datacenterId << DATACENTER_ID_SHIFT) | (workerId << WORKER_ID_SHIFT) | sequence;
+    }
+
+    /**
+     * Get next IDs by quantity.
+     *
+     * @param quantity quantity (1~255)
+     * @return long for IDs.
+     */
+    public synchronized Set<Long> nextIds(int quantity) {
+        if (quantity < 1 || quantity > 255) {
+            throw new RuntimeException("The quantity range must be 1 to 255.");
+        }
+        Set<Long> ids = new HashSet<>();
+        while (ids.size() < quantity) {
+            ids.add(nextId());
+        }
+        return ids;
     }
 
     protected long tilNextMillis(long lastTimestamp) {

@@ -15,12 +15,12 @@ Maven
 <dependency>
     <groupId>com.fuqqqq</groupId>
     <artifactId>snowflake4j</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 Gradle
 ```groovy
-compile 'com.fuqqqq:snowflake4j:1.0.0'
+compile 'com.fuqqqq:snowflake4j:1.0.1'
 ```
 
 ## Usage
@@ -30,16 +30,27 @@ import com.fuqqqq.snowflake4j.IdGenerator;
 
 public class SimpleExample {
 
-    public long getNextId() {
+    private IdGenerator idGen;
+
+    public SimpleExample() {
         long workerId = 0L;     //0~31
         long datacenterId = 0L; //0~31
         // create instance 
         IdGenerator idGen = new IdGenerator(workerId, datacenterId);
-        // get id
+    }
+
+    public long getNextId() {
+        // get a id
         return idGen.nextId();
+    }
+
+    public Set<Long> getNextIds() {
+        // get 10 ids
+        int quantity = 10; //1~255
+        return idGen.nextIds(quantity);
     }
 }
 ```
 
-### *License*
+## *License*
 Released under the [Apache 2.0 License](LICENSE).
