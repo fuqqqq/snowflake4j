@@ -12,7 +12,7 @@ public class IdGenerator {
     private static final long WORKER_ID_BITS = 5L;
     private static final long DATACENTER_ID_BITS = 5L;
     private static final long MAX_WORKER_ID = ~(-1L << WORKER_ID_BITS);
-    private static final long MAX_DATACENTER_ID = ~(-1 << DATACENTER_ID_BITS);
+    private static final long MAX_DATACENTER_ID = ~(-1L << DATACENTER_ID_BITS);
     private static final long SEQUENCE_BITS = 12L;
 
     private static final long WORKER_ID_SHIFT = SEQUENCE_BITS;

@@ -15,12 +15,12 @@ Maven
 <dependency>
     <groupId>com.fuqqqq</groupId>
     <artifactId>snowflake4j</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 Gradle
 ```groovy
-compile 'com.fuqqqq:snowflake4j:1.0.2'
+compile 'com.fuqqqq:snowflake4j:1.0.3'
 ```
 
 ## Usage
@@ -52,5 +52,5 @@ public class SimpleExample {
 }
 ```
 
-### *License*
+## *License*
 Released under the [Apache 2.0 License](LICENSE).
