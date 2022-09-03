@@ -1,15 +1,9 @@
 package com.fuqqqq.snowflake4j;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * SnowFlake ID Generator.
+ * SnowFlake ID Worker.
  */
-@Deprecated
-public class IdGenerator {
-    private static final long TW_EPOCH = 1645539742222L; //2022-02-22 22:22:22.222
-
+public class IdWorker {
     private static final long WORKER_ID_BITS = 5L;
     private static final long DATACENTER_ID_BITS = 5L;
     private static final long MAX_WORKER_ID = ~(-1L << WORKER_ID_BITS);
@@ -21,6 +15,8 @@ public class IdGenerator {
     private static final long TIMESTAMP_LEFT_SHIFT = SEQUENCE_BITS + WORKER_ID_BITS + DATACENTER_ID_BITS;
     private static final long SEQUENCE_MASK = ~(-1L << SEQUENCE_BITS);
 
+
+    private final long epoch;
     private final long workerId;
     private final long datacenterId;
 
@@ -28,25 +24,26 @@ public class IdGenerator {
     private long lastTimestamp = -1L;
 
     /**
-     * Create an instance for ID Generator。
+     * Construct an instance for ID Worker.
      *
-     * @param workerId     Worker ID
-     * @param datacenterId DataCenter ID
+     * @param workerId     worker ID
+     * @param datacenterId dataCenter ID
+     * @param epoch        epoch timestamp
      */
-    public IdGenerator(long workerId, long datacenterId) {
-        // sanity check for workerId
+    IdWorker(long workerId, long datacenterId, long epoch) {
         if (workerId > MAX_WORKER_ID || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", MAX_WORKER_ID));
         }
         if (datacenterId > MAX_DATACENTER_ID || datacenterId < 0) {
             throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", MAX_DATACENTER_ID));
         }
-        this.workerId = workerId;
         this.datacenterId = datacenterId;
+        this.workerId = workerId;
+        this.epoch = epoch;
     }
 
     /**
-     * Get next ID。
+     * Get next ID.
      *
      * @return long for ID
      */
@@ -68,27 +65,14 @@ public class IdGenerator {
 
         lastTimestamp = timestamp;
 
-        return ((timestamp - TW_EPOCH) << TIMESTAMP_LEFT_SHIFT) | (datacenterId << DATACENTER_ID_SHIFT) | (workerId << WORKER_ID_SHIFT) | sequence;
+        long id = ((timestamp - epoch) << TIMESTAMP_LEFT_SHIFT) | (datacenterId << DATACENTER_ID_SHIFT) | (workerId << WORKER_ID_SHIFT) | sequence;
+        if (id < 0L) {
+            throw new IllegalArgumentException(String.format("illegal argument: epoch = %d", epoch));
+        }
+        return id;
     }
 
-    /**
-     * Get next IDs by quantity.
-     *
-     * @param quantity quantity (1~255)
-     * @return long for IDs.
-     */
-    public synchronized Set<Long> nextIds(int quantity) {
-        if (quantity < 1 || quantity > 255) {
-            throw new RuntimeException("The quantity range must be 1 to 255.");
-        }
-        Set<Long> ids = new HashSet<>();
-        while (ids.size() < quantity) {
-            ids.add(nextId());
-        }
-        return ids;
-    }
-
-    protected long tilNextMillis(long lastTimestamp) {
+    private long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
             timestamp = timeGen();
@@ -96,7 +80,7 @@ public class IdGenerator {
         return timestamp;
     }
 
-    protected long timeGen() {
+    private long timeGen() {
         return System.currentTimeMillis();
     }
 }

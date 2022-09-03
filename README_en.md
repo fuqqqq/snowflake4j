@@ -1,4 +1,4 @@
-Language : [EN](README_en.md) | [中文](README.md)
+Language : [中文](README.md) | [English](README_en.md)
 # Snowflake4J
 
 [![GitHub Release](https://img.shields.io/github/release/fuqqqq/snowflake4j.svg)](https://github.com/fuqqqq/snowflake4j/releases)
@@ -7,50 +7,51 @@ Language : [EN](README_en.md) | [中文](README.md)
 Snowflake4J is a Java library, That can be used to get twitter snowflake ID.
 
 References:
-- https://github.com/twitter/snowflake/tree/snowflake-2010
+- [twitter/snowflake-2010](https://github.com/twitter/snowflake/tree/snowflake-2010)
 
 ## Import
-Maven
+- Maven
+
 ```xml
 <dependency>
     <groupId>com.fuqqqq</groupId>
     <artifactId>snowflake4j</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
 </dependency>
 ```
-Gradle
-```groovy
-compile 'com.fuqqqq:snowflake4j:1.0.3'
+
+- Gradle
+
+```
+compile 'com.fuqqqq:snowflake4j:1.1.0'
 ```
 
 ## Usage
 
 ```java
-import com.fuqqqq.snowflake4j.IdGenerator;
+package com.example.demo.snowflake4j;
+
+import com.fuqqqq.snowflake4j.*;
 
 public class SimpleExample {
 
-    private IdGenerator idGen;
+    public long test() {
+        long epoch = 1643738522222L; // 2022-02-22 22:22:22.222
+        long workerId = 0L;          // 0-31
+        long datacenterId = 0L;      // 0-31
+        // build an instance
+        IdWorker idWorker = new IdWorkerBuilder()
+                .setEpoch(epoch)
+                .setDataCenterId(datacenterId)
+                .setWorkerId(workerId)
+                .build();
 
-    public SimpleExample() {
-        long workerId = 0L;     //0~31
-        long datacenterId = 0L; //0~31
-        // create instance 
-        IdGenerator idGen = new IdGenerator(workerId, datacenterId);
-    }
-
-    public long getNextId() {
-        // get a id
-        return idGen.nextId();
-    }
-
-    public Set<Long> getNextIds() {
-        // get 10 ids
-        int quantity = 10; //1~255
-        return idGen.nextIds(quantity);
+        return idWorker.nextId();
     }
 }
 ```
 
-## *License*
+PS: The epoch timestamp in the same system must be consistent.
+
+## License
 Released under the [Apache 2.0 License](LICENSE).

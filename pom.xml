@@ -6,11 +6,10 @@
 
     <groupId>com.fuqqqq</groupId>
     <artifactId>snowflake4j</artifactId>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
     <name>snowflake4j</name>
-    <description>SnowFlake ID Generator for Java</description>
-
+    <description>SnowFlake for Java</description>
     <url>https://github.com/fuqqqq/snowflake4j</url>
     <inceptionYear>2022</inceptionYear>
 
@@ -120,27 +119,24 @@
 
     <scm>
         <url>https://github.com/fuqqqq/snowflake4j</url>
-        <connection>scm:git:https://git@github.com/fuqqqq/snowflake4j.git</connection>
+        <connection>scm:git:https://github.com/fuqqqq/snowflake4j.git</connection>
     </scm>
-
     <licenses>
         <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
-
     <developers>
         <developer>
-            <id>FUqqqq</id>
-            <name>FUqqqq</name>
+            <id>fuq</id>
+            <name>FUq</name>
             <email>fuq1978@gmail.com</email>
-            <url>https://fuqqqq.com</url>
         </developer>
     </developers>
-
     <organization>
-        <name>FUqqqq</name>
+        <name>FUqqqq.com</name>
         <url>https://fuqqqq.com</url>
     </organization>
 </project>
